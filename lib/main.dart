@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:strokeprediction/chat-bot-screen.dart';
+import 'package:strokeprediction/image-upload-screen.dart';
 import 'package:strokeprediction/splashScreen.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp( const MyApp());
