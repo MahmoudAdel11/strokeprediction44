@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:strokeprediction/onboarding/onboarding-model.dart';
 import 'package:strokeprediction/onboarding/onboarging-builder.dart';
-import 'package:strokeprediction/welcome-screen.dart';
+import 'package:strokeprediction/screens/welcome-screen.dart';
 
 
 class  onboarding extends StatefulWidget {

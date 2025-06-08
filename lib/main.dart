@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:strokeprediction/chat-bot-screen.dart';
-import 'package:strokeprediction/image-upload-screen.dart';
-import 'package:strokeprediction/splashScreen.dart';
+import 'package:strokeprediction/screens/chat-bot-screen.dart';
+import 'package:strokeprediction/screens/splashScreen.dart';
+import 'package:strokeprediction/services/notification_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp( const MyApp());
-
-
+  await NotificationService.init();
+  runApp(MyApp());
 }
+
 class MyApp extends  StatelessWidget {
   const MyApp({super.key});
 

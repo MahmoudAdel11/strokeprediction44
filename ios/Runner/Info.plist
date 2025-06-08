@@ -6,6 +6,10 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Strokeprediction</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+    <string>needed to speech to text</string>
+    <key>NSMicrophoneUsageDescription</key>
+     <string>needed to speech to text2</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
