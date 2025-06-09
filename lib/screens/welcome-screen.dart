@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:strokeprediction/screens/login-screen.dart';
 import 'package:strokeprediction/screens/sing-up-screen.dart';
 
-
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 

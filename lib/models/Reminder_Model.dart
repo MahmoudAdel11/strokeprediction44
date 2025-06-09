@@ -1,5 +1,5 @@
 class MedicineReminder {
-  final int? id; // Make it nullable and optional
+  final int? id;
   final String name;
   final String time;
   final bool isDaily;
@@ -13,7 +13,7 @@ class MedicineReminder {
 
   factory MedicineReminder.fromJson(Map<String, dynamic> json) {
     return MedicineReminder(
-      id: json['id'], // This can be null when adding
+      id: json['id'],
       name: json['name'],
       time: json['time'],
       isDaily: json['isDaily'],
@@ -22,7 +22,7 @@ class MedicineReminder {
 
   Map<String, dynamic> toJson() {
     return {
-      if (id != null) 'id': id, // Include only if not null (for update)
+      if (id != null) 'id': id,
       'name': name,
       'time': time,
       'isDaily': isDaily,

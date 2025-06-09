@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:strokeprediction/screens/welcome-screen.dart';
 
 class ApiService {
   static const String baseUrl = "https://strokepredictionai.runasp.net";
@@ -29,7 +30,7 @@ class ApiService {
           print("--------------------------------------------------");
           print(token);
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('token', token);
+          await prefs.setString('accessToken', token);
         } else {
           print("Success, but no token returned.");
           // Optionally show a success message
@@ -69,7 +70,7 @@ class ApiService {
         // Save the accessToken
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('accessToken', data['accessToken']);
-        print("000000000\n---------------------------");
+        print("------\n---------------------------");
         print(prefs.getString('accessToken'));
 
         return true;
@@ -85,9 +86,13 @@ class ApiService {
 
 
   static Future<void> logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
-  }
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('accessToken');
+      print("logout done");
+
+    }
+
+
 
   static Future<void> predictStroke({
     required int age,
@@ -145,4 +150,7 @@ class ApiService {
   }
 
 }
+
+
+
 

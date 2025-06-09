@@ -4,7 +4,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 
 class ChatbotService {
   static const String strokeApiUrl = "https://strokepredictionai.runasp.net/api/ChatBot/ask";
-  static const String geminiApiKey = "AIzaSyA1hUJ1-7QQjEDUltKUNnuh5A_yLi6_Glw"; // Replace with your API key
+  static const String geminiApiKey = "AIzaSyA1hUJ1-7QQjEDUltKUNnuh5A_yLi6_Glw";
 
   final GenerativeModel geminiModel = GenerativeModel(
     model: 'gemini-pro',
@@ -26,7 +26,7 @@ class ChatbotService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
 
-        // Extract response from "candidates" → "content" → "parts" → "text"
+
         if (responseData.containsKey("candidates") &&
             responseData["candidates"].isNotEmpty &&
             responseData["candidates"][0].containsKey("content") &&
@@ -34,17 +34,17 @@ class ChatbotService {
             responseData["candidates"][0]["content"]["parts"].isNotEmpty) {
           return responseData["candidates"][0]["content"]["parts"][0]["text"];
         } else {
-          return "⚠️ Unexpected API response format.";
+          return "⚠ Unexpected API response format.";
         }
       } else {
-        return "⚠️ API Error: ${response.statusCode} - ${response.reasonPhrase}";
+        return "⚠ API Error: ${response.statusCode} - ${response.reasonPhrase}";
       }
     } catch (e) {
-      return "❌ Error: Unable to connect to the API. Check your internet or API status.";
+      return " Error: Unable to connect to the API. Check your internet or API status.";
     }
   }
 
-  // Function to use Gemini AI as a fallback
+  //....................... Gemini AI as a fallback
   Future<String> askGemini(String question) async {
     try {
       final content = [Content.text(question)];
@@ -55,11 +55,11 @@ class ChatbotService {
     }
   }
 
-  // Main Function: Decides which API to use
+  // .................Decides which API to use
   Future<String> getChatbotResponse(String question) async {
     String response = await askStrokeApi(question);
 
-    // If the stroke API doesn’t have an answer, use Gemini AI as fallback
+    // ............. use Gemini AI as fallback
     if (response.contains("Error") || response.isEmpty) {
       response = await askGemini(question);
     }

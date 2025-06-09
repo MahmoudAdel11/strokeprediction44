@@ -11,11 +11,11 @@ class ReminderService {
     return prefs.getString('accessToken');
   }
 
-  /// Fetch all reminders
+
   Future<List<MedicineReminder>> fetchReminders() async {
     final token = await _getToken();
     if (token == null) {
-      print('⚠️ Token is null');
+      print(' Token is null');
       return [];
     }
 
@@ -28,13 +28,13 @@ class ReminderService {
         },
       );
 
-      print('📥 Fetch reminders status: ${response.statusCode}');
-      print('📦 Response body: ${response.body}');
+      print(' Fetch reminders status: ${response.statusCode}');
+      print(' Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final body = response.body;
         if (body.isEmpty) {
-          print('⚠️ Response body is empty');
+          print('Response body is empty');
           return [];
         }
 
@@ -43,21 +43,21 @@ class ReminderService {
             .map((e) => MedicineReminder.fromJson(e as Map<String, dynamic>))
             .toList();
       } else {
-        print('❌ Failed to fetch reminders: ${response.statusCode}');
+        print(' Failed to fetch reminders: ${response.statusCode}');
         return [];
       }
     } catch (e) {
-      print('❌ Error fetching reminders: $e');
+      print(' Error fetching reminders: $e');
       return [];
     }
   }
 
 
-  /// Add a new reminder
+
   Future<bool> addReminder(MedicineReminder reminder) async {
     final token = await _getToken();
     if (token == null) {
-      print('⚠️ Token is null');
+      print('⚠ Token is null');
       return false;
     }
 
@@ -71,19 +71,18 @@ class ReminderService {
         body: json.encode(reminder.toJson()),
       );
 
-      print('➕ Add reminder status: ${response.statusCode}');
+      print(' Add reminder status: ${response.statusCode}');
       return response.statusCode == 200 || response.statusCode == 201;
     } catch (e) {
-      print('❌ Error adding reminder: $e');
+      print(' Error adding reminder: $e');
       return false;
     }
   }
 
-  /// Update an existing reminder
   Future<bool> updateReminder(int id, MedicineReminder reminder) async {
     final token = await _getToken();
     if (token == null) {
-      print('⚠️ Token is null');
+      print('️ Token is null');
       return false;
     }
 
@@ -97,19 +96,19 @@ class ReminderService {
         body: json.encode(reminder.toJson()),
       );
 
-      print('✏️ Update reminder status: ${response.statusCode}');
+      print('️ Update reminder status: ${response.statusCode}');
       return response.statusCode == 200;
     } catch (e) {
-      print('❌ Error updating reminder: $e');
+      print(' Error updating reminder: $e');
       return false;
     }
   }
 
-  /// Delete a reminder
+
   Future<bool> deleteReminder(int id) async {
     final token = await _getToken();
     if (token == null) {
-      print('⚠️ Token is null');
+      print(' Token is null');
       return false;
     }
 
@@ -122,10 +121,10 @@ class ReminderService {
         },
       );
 
-      print('🗑️ Delete reminder status: ${response.statusCode}');
+      print(' Delete reminder status: ${response.statusCode}');
       return response.statusCode == 200;
     } catch (e) {
-      print('❌ Error deleting reminder: $e');
+      print(' Error deleting reminder: $e');
       return false;
     }
   }

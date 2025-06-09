@@ -5,6 +5,3 @@ class Hospital {
 
   Hospital(this.name, this.latitude, this.longitude);
 }
-
-
-

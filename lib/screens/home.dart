@@ -5,9 +5,17 @@ import 'package:strokeprediction/screens/labb.dart';
 import 'package:strokeprediction/screens/map_screen.dart';
 import 'package:strokeprediction/screens/maptest.dart';
 import 'package:strokeprediction/screens/reminder_screen.dart';
+import 'package:strokeprediction/services/api_service.dart';
+import 'package:strokeprediction/screens/welcome-screen.dart';
+
 
 
 class HomePage extends StatelessWidget {
+
+  void _logout(BuildContext context) async {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,15 +26,37 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 40),
-              Text(
-                'Welcome to Your Health Assistant',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent,
-                ),
+
+
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Welcome to Your Health Assistant',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.logout, color: Colors.blueAccent),
+                    tooltip: 'Logout',
+                    onPressed: () {
+                      ApiService.logout();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                      );
+                    },
+                  ),
+                ],
               ),
+
+
               SizedBox(height: 10),
               Text(
                 'How can we help you today?',
@@ -155,3 +185,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
+
+

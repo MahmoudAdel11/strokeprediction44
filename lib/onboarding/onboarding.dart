@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,6 +5,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:strokeprediction/onboarding/onboarding-model.dart';
 import 'package:strokeprediction/onboarding/onboarging-builder.dart';
 import 'package:strokeprediction/screens/welcome-screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class  onboarding extends StatefulWidget {
@@ -16,6 +16,16 @@ class  onboarding extends StatefulWidget {
 class _onboardingState extends State<onboarding> {
   var pageController = PageController();
   bool islast = false;
+  void completeOnboarding(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding_seen', true);
+    print("deepuggggggggg");
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => WelcomeScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Expanded(
@@ -25,19 +35,11 @@ class _onboardingState extends State<onboarding> {
             backgroundColor:Colors.blue.shade100 ,
             actions: [
               TextButton(
-                  onPressed: (){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => WelcomeScreen()));
-      
-                // setState(() {
-                //   islast=true;
-                //
-                //   Navigator.of(context)
-                //       .push(MaterialPageRoute(builder: (context){ return Register();
-                //   }));
-                // });
-      
+              onPressed: () async {
+                print("skip");
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('hasSeenOnboarding', true);
+                completeOnboarding(context);
               }
               , child:  Text("SKIP",
                   style: TextStyle
@@ -112,10 +114,11 @@ class _onboardingState extends State<onboarding> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                          onPressed: (){
-                            // Shared.putBOOL(key: SharedKeys.isLastOnBoarding, value: islast);
-                            Navigator.of(context).push(MaterialPageRoute(builder :(context){ return const WelcomeScreen();
-                            }));
+                          onPressed: ()  async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            await prefs.setBool('hasSeenOnboarding', true);
+                            completeOnboarding(context);
+                          
                             // Navigator.of(context)
                             //     .push(MaterialPageRoute(builder: (context){ return Register();
                             // }));
@@ -139,3 +142,8 @@ class _onboardingState extends State<onboarding> {
     );
   }
 }
+
+
+
+
+

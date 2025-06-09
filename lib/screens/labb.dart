@@ -22,7 +22,6 @@ class _StrokePredictionFormState extends State<StrokePredictionForm> {
   String? smokingStatus;
   //
 
-
   //
   Widget buildInputField({
     required String hint,
@@ -245,7 +244,7 @@ class _StrokePredictionFormState extends State<StrokePredictionForm> {
                 residenceType: residenceType!,
                 avgGlucoseLevel: avgGlucoseLevel!,
                 bmi: bmi!,
-                smokingStatus: smokingStatus!, // make sure you collect this input
+                smokingStatus: smokingStatus!,
               );
 
               final prefs = await SharedPreferences.getInstance();

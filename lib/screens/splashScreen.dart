@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:strokeprediction/onboarding/onboarding.dart';
+import 'package:strokeprediction/screens/home.dart';
+import 'package:strokeprediction/screens/welcome-screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -16,12 +19,34 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () {
-       Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => onboarding()));
+    Timer(Duration(seconds: 3), checkUserState);
+  }
 
-    });
+  void checkUserState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+    final token = prefs.getString('accessToken');
+    
+    print(token);
+    print("splash");
+
+    if (!hasSeenOnboarding) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => onboarding()),
+      );
+    } else if (token != null && token.isNotEmpty) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => WelcomeScreen()),
+      );
+    }
   }
   @override
   Widget build(BuildContext context) {

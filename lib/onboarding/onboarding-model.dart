@@ -21,9 +21,3 @@ final List<OnboardingModel> onboardingData = [
     description:"Explore recovery strategies and support options for those affected by stroke, focusing on rehabilitation, community resources, and mental health.",
   )
 ];
-// List<OnboardingModel>data =[
-//   OnboardingModel(imagePath:"assets/images/doc.png", description:"welcome to iDevice"),
-//   OnboardingModel(imagePath:"assets/images/doc.png", description:"Let's help find your device"),
-//   OnboardingModel(imagePath:"assets/images/doc.png", description:"Free shipping for the first one")
-//
-// ];

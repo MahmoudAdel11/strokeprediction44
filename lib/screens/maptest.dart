@@ -21,6 +21,7 @@ class _MapTestState extends State<MapTest> {
     Hospital("Town Clinic", 30.0522, 31.2348),
     Hospital("Central Medical Center", 30.0500, 31.2400),
     Hospital("Riverdale Hospital", 30.0480, 31.2320),
+
   ];
 
   Future<void> _showMapWithHospitals() async {

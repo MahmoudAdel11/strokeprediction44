@@ -21,7 +21,7 @@ class _ResultScreenState extends State<ResultScreen> {
   Future<void> _loadResult() async {
     final prefs = await SharedPreferences.getInstance();
     final result = prefs.getString('stroke_result');
-    print("000000\n--------\n $result");
+    print("stroke result\n--------\n $result");
     setState(() {
       predictionResult = result;
       isLoading = false;

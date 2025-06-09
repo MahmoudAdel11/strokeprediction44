@@ -36,30 +36,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 32),
-              // TextField(
-              //   decoration: InputDecoration(
-              //     hintText: 'Enter your name',
-              //     prefixIcon: Icon(Icons.person_2_outlined),
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(10),
-              //       borderSide: BorderSide.none,
-              //     ),
-              //     filled: true,
-              //     fillColor: Colors.grey[200],
-              //   ),
-              // ),
-              // SizedBox(height: 16),
-              // TextField(
-              //   decoration: InputDecoration(
-              //     hintText: 'Enter your email',
-              //     prefixIcon: Icon(Icons.email_outlined),
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(12),
-              //     ),
-              //     filled: true,
-              //     fillColor: Colors.grey[200],
-              //   ),
-              // ),
+
               TextFormField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
@@ -83,20 +60,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
 
 
               SizedBox(height: 16),
-              // TextField(
-              //   obscureText: true,
-              //   decoration: InputDecoration(
-              //     hintText: 'Enter your password',
-              //     prefixIcon: Icon(Icons.lock_outline),
-              //     suffixIcon: Icon(Icons.visibility_off,color: Colors.grey,),
-              //     border: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(10),
-              //       borderSide: BorderSide.none,
-              //     ),
-              //     filled: true,
-              //     fillColor: Colors.grey[200],
-              //   ),
-              // ),
+
               TextFormField(
                 controller: _passwordController,
                 obscureText: _obscureText,
@@ -170,28 +134,7 @@ class _SingUpScreenState extends State<SingUpScreen> {
                 ],
               ),
               SizedBox(height: 200,),
-              // Center(
-              //   child: ElevatedButton(
-              //     onPressed: () {
-              //       // Handle sign-up button press
-              //     },
-              //     style: ElevatedButton.styleFrom(
-              //       backgroundColor: Colors.blue.shade600,
-              //       shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(30),
-              //       ),
-              //       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-              //     ),
-              //     child: Text(
-              //       'Sign Up',
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //         fontSize: 16,
-              //       ),
-              //     ),
-              //   ),
-              //
-              // ),
+
               Center(
                 child: ElevatedButton(
                   onPressed: () async {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import '../services/overpass_service.dart';
-import 'map_screen.dart'; // Update if needed
+import 'map_screen.dart';
 
 class NearbyHospitalsScreen extends StatefulWidget {
   final LatLng userLocation;
