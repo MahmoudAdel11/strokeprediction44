@@ -1,4 +1,6 @@
+
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:strokeprediction/screens/welcome-screen.dart';
@@ -86,15 +88,16 @@ class ApiService {
 
 
   static Future<void> logout() async {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('accessToken');
-      print("logout done");
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('accessToken');
+    print("logout done");
 
-    }
+  }
 
 
 
   static Future<void> predictStroke({
+    required BuildContext context, // 👈 Add context
     required int age,
     required bool hypertension,
     required bool heartDisease,
@@ -109,6 +112,15 @@ class ApiService {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('accessToken');
 
+    if (token == null) {
+      print("❌ No access token found. Redirecting to login.");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => WelcomeScreen()),
+      );
+      return;
+    }
+
     final url = Uri.parse('https://strokepredictionai.runasp.net/api/StrokePrediction');
 
     final headers = {
@@ -121,7 +133,7 @@ class ApiService {
       "age": age,
       "hypertension": hypertension ? 1 : 0,
       "hasHeartDisease": heartDisease ? 1 : 0,
-      "everMarried": everMarried !,
+      "everMarried": everMarried,
       "workType": workType,
       "residence_type": residenceType,
       "avg_glucose_level": avgGlucoseLevel,
@@ -129,28 +141,34 @@ class ApiService {
       "smoking_status": smokingStatus,
     };
 
-    // Debug prints
-    print("Sending POST request to: $url");
-    print("Headers: $headers");
-    print("Body: ${jsonEncode(body)}");
+    try {
+      print("🚀 Sending POST request to: $url");
+      print("📨 Headers: $headers");
+      print("📨 Body: ${jsonEncode(body)}");
 
-    final response = await http.post(url, headers: headers, body: jsonEncode(body));
+      final response = await http.post(url, headers: headers, body: jsonEncode(body));
 
-    print("Response status: ${response.statusCode}");
-    print("Response body: ${response.body}");
+      print("📦 Response status: ${response.statusCode}");
+      print("📦 Response body: ${response.body}");
 
-    if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      final prediction = json['prediction'][0];
-      await prefs.setString('stroke_result', prediction.toString());
-      print("Prediction saved to shared preferences: $prediction");
-    } else {
-      throw Exception('Prediction failed: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        final prediction = json['prediction'][0];
+        await prefs.setString('stroke_result', prediction.toString());
+        print("✅ Prediction saved: $prediction");
+      } else if (response.statusCode == 401) {
+        print("❌ Token expired or unauthorized. Redirecting to login.");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => WelcomeScreen()),
+        );
+      } else {
+        print("❌ Prediction failed with status: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("❌ Exception occurred: $e");
     }
   }
 
+
 }
-
-
-
-

@@ -208,7 +208,7 @@ class _StrokePredictionFormState extends State<StrokePredictionForm> {
                     hint: "Smoking Status",
                     icon: Icons.smoking_rooms,
                     items: [
-                      DropdownMenuItem(value: "never smoked", child: Text("Never Smoked")),
+                      DropdownMenuItem(value: "never smoked", child: Text("Never Smoked")),
                       DropdownMenuItem(value: "Unknown", child: Text("Unknown")),
                       DropdownMenuItem(value: "formerly smoked", child: Text("Formerly Smoked")),
                       DropdownMenuItem(value: "smokes", child: Text("Smokes")),
@@ -235,6 +235,7 @@ class _StrokePredictionFormState extends State<StrokePredictionForm> {
 
             try {
               await ApiService.predictStroke(
+                context: context,
                 age: age!,
                 hypertension: hypertension!,
                 heartDisease: heartDisease!,

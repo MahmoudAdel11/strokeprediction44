@@ -25,7 +25,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   }
 
   void _loadReminders() async {
-    final fetched = await ReminderService().fetchReminders();
+    final fetched = await ReminderService().fetchReminders(context);
     setState(() => reminders = fetched);
   }
 
@@ -62,7 +62,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   }
 
   void _deleteReminder(int id) async {
-    final success = await ReminderService().deleteReminder(id);
+    final success = await ReminderService().deleteReminder(id,context);
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Reminder deleted.")),
@@ -89,9 +89,9 @@ class _ReminderScreenState extends State<ReminderScreen> {
 
     bool success;
     if (editingReminder != null) {
-      success = await ReminderService().updateReminder(editingReminder!.id!, reminder);
+      success = await ReminderService().updateReminder(editingReminder!.id!, reminder,context);
     } else {
-      success = await ReminderService().addReminder(reminder);
+      success = await ReminderService().addReminder(reminder,context);
     }
 
     if (success) {

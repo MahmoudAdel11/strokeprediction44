@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:strokeprediction/models/Reminder_Model.dart';
+import 'package:strokeprediction/utils/token_utils.dart';
 
 class ReminderService {
   final String baseUrl = 'https://strokepredictionai.runasp.net/api/Reminders';
@@ -12,10 +14,10 @@ class ReminderService {
   }
 
 
-  Future<List<MedicineReminder>> fetchReminders() async {
+  Future<List<MedicineReminder>> fetchReminders(BuildContext context) async {
     final token = await _getToken();
     if (token == null) {
-      print(' Token is null');
+      print('Token is null');
       return [];
     }
 
@@ -28,33 +30,31 @@ class ReminderService {
         },
       );
 
-      print(' Fetch reminders status: ${response.statusCode}');
-      print(' Response body: ${response.body}');
+      print('Fetch reminders status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 401) {
+        print(' Access token expired. Logging out.');
+        await handleTokenExpired(context);
+        return [];
+      }
 
       if (response.statusCode == 200) {
-        final body = response.body;
-        if (body.isEmpty) {
-          print('Response body is empty');
-          return [];
-        }
-
-        final List<dynamic> jsonData = json.decode(body);
+        final List<dynamic> jsonData = json.decode(response.body);
         return jsonData
             .map((e) => MedicineReminder.fromJson(e as Map<String, dynamic>))
             .toList();
       } else {
-        print(' Failed to fetch reminders: ${response.statusCode}');
+        print('Failed to fetch reminders: ${response.statusCode}');
         return [];
       }
     } catch (e) {
-      print(' Error fetching reminders: $e');
+      print('Error fetching reminders: $e');
       return [];
     }
   }
 
-
-
-  Future<bool> addReminder(MedicineReminder reminder) async {
+  Future<bool> addReminder(MedicineReminder reminder, BuildContext context) async {
     final token = await _getToken();
     if (token == null) {
       print('⚠ Token is null');
@@ -72,6 +72,13 @@ class ReminderService {
       );
 
       print(' Add reminder status: ${response.statusCode}');
+
+      if (response.statusCode == 401) {
+        print('⚠ Access token expired during addReminder.');
+        await handleTokenExpired(context);
+        return false;
+      }
+
       return response.statusCode == 200 || response.statusCode == 201;
     } catch (e) {
       print(' Error adding reminder: $e');
@@ -79,7 +86,7 @@ class ReminderService {
     }
   }
 
-  Future<bool> updateReminder(int id, MedicineReminder reminder) async {
+  Future<bool> updateReminder(int id, MedicineReminder reminder, BuildContext context) async {
     final token = await _getToken();
     if (token == null) {
       print('️ Token is null');
@@ -97,6 +104,13 @@ class ReminderService {
       );
 
       print('️ Update reminder status: ${response.statusCode}');
+
+      if (response.statusCode == 401) {
+        print('⚠ Access token expired during updateReminder.');
+        await handleTokenExpired(context);
+        return false;
+      }
+
       return response.statusCode == 200;
     } catch (e) {
       print(' Error updating reminder: $e');
@@ -104,8 +118,7 @@ class ReminderService {
     }
   }
 
-
-  Future<bool> deleteReminder(int id) async {
+  Future<bool> deleteReminder(int id, BuildContext context) async {
     final token = await _getToken();
     if (token == null) {
       print(' Token is null');
@@ -122,10 +135,18 @@ class ReminderService {
       );
 
       print(' Delete reminder status: ${response.statusCode}');
+
+      if (response.statusCode == 401) {
+        print('Access token expired during deleteReminder.');
+        await handleTokenExpired(context);
+        return false;
+      }
+
       return response.statusCode == 200;
     } catch (e) {
       print(' Error deleting reminder: $e');
       return false;
     }
   }
+
 }
